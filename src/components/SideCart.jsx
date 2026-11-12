@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 // 🔴 ThemeContext ইমপোর্ট করা হলো (পাথ আপনার প্রজেক্ট অনুযায়ী ঠিক করে নেবেন)
 import { ThemeContext } from '../context/ThemeContext'; 
-import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 export default function SideCart() {
   const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart } = useContext(CartContext);
@@ -66,7 +66,7 @@ export default function SideCart() {
               <div key={index} className="flex gap-4 items-center bg-t-surface backdrop-blur-md p-3 rounded-2xl border border-t-border shadow-sm hover:shadow-md transition-all group">
                 <div className="w-16 h-20 bg-t-base rounded-xl overflow-hidden flex-shrink-0 relative shadow-inner border border-t-border/50">
                   {item.image_url ? (
-                     <img src={item.image_url.startsWith('http') ? item.image_url : `${API_BASE_URL}${item.image_url}`} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                     <img src={resolveImageUrl(item.image_url)} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                      <div className="w-full h-full flex items-center justify-center text-[10px] text-t-muted font-bold uppercase tracking-widest">No Img</div>
                   )}

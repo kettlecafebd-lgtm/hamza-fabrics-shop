@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import InlineEditableCell from './InlineEditableCell';
 import StatusBadge, { StockIndicator } from './StatusBadge';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 /**
  * VariantMatrix — Premium Accordion Table for Product & Variant Management
@@ -120,9 +121,9 @@ export default function VariantMatrix({
                         {p.image_url ? (
                           <img
                             onClick={() => onViewImage?.(
-                              p.image_url.startsWith('http') ? p.image_url : `${API_BASE_URL}${p.image_url}`
+                              resolveImageUrl(p.image_url, { apiBaseUrl: API_BASE_URL })
                             )}
-                            src={p.image_url.startsWith('http') ? p.image_url : `${API_BASE_URL}${p.image_url}`}
+                            src={resolveImageUrl(p.image_url, { apiBaseUrl: API_BASE_URL })}
                             className="w-full h-full object-contain cursor-pointer hover:scale-110 transition-transform duration-300"
                             alt={p.name}
                           />
@@ -270,12 +271,12 @@ export default function VariantMatrix({
                                             <img
                                               onClick={() => onViewImage?.(
                                                 p.image_url
-                                                  ? (p.image_url.startsWith('http') ? p.image_url : `${API_BASE_URL}${p.image_url}`)
+                                                  ? resolveImageUrl(p.image_url, { apiBaseUrl: API_BASE_URL })
                                                   : 'https://via.placeholder.com/36'
                                               )}
                                               src={
                                                 p.image_url
-                                                  ? (p.image_url.startsWith('http') ? p.image_url : `${API_BASE_URL}${p.image_url}`)
+                                                  ? resolveImageUrl(p.image_url, { apiBaseUrl: API_BASE_URL })
                                                   : 'https://via.placeholder.com/36'
                                               }
                                               className="w-full h-full object-contain cursor-pointer hover:scale-110 transition-transform"

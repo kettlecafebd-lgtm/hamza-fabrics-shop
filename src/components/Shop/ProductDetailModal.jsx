@@ -6,6 +6,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { CustomerAIProfileContext } from '../../context/CustomerAIProfile';
 import toast from 'react-hot-toast';
 import API_BASE_URL from '../../config/api';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 /**
  * ProductDetailModal — Premium Shop Product Details
@@ -112,7 +113,10 @@ const ProductDetailModal = ({ product, images = [], onClose }) => {
   }, [selectedColor, selectedSize, variants]);
 
   // ── Image Gallery Navigation ──
-  const validImages = images.filter(Boolean).length > 0 ? images.filter(Boolean) : [product?.image_url];
+  const imageSources = images.filter(Boolean);
+  const validImages = (imageSources.length > 0 ? imageSources : [product?.image_url])
+    .map(resolveImageUrl)
+    .filter(Boolean);
   const goToImage = (newIndex) => {
     setDirection(newIndex > mainImageIndex ? 1 : -1);
     setMainImageIndex(newIndex);

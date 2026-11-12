@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_BASE_URL from '../../config/api';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 /**
  * CommandMenu — Global Spotlight Search (Ctrl+K / Cmd+K)
@@ -176,11 +177,7 @@ export default function CommandMenu({ open, onClose }) {
           icon: p.image_url
             ? null
             : '📦',
-          imageUrl: p.image_url
-            ? p.image_url.startsWith('http')
-              ? p.image_url
-              : `${API_BASE_URL}${p.image_url}`
-            : null,
+          imageUrl: p.image_url ? resolveImageUrl(p.image_url) : null,
         })
       );
     }

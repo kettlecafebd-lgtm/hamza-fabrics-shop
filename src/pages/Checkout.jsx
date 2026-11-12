@@ -5,6 +5,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import { useDevice } from '../context/DeviceContext';
 import toast from 'react-hot-toast';
 import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 import { trackBeginCheckout, trackPurchase } from '../lib/gtm';
 import { fbqEvent } from '../lib/fbq';
 
@@ -386,7 +387,7 @@ export default function Checkout() {
                     <div className="w-14 h-14 sm:w-16 sm:h-16 bg-t-base rounded-xl overflow-hidden flex-shrink-0 border border-t-border/50">
                       {item.image_url ? (
                         <img
-                          src={item.image_url.startsWith('http') ? item.image_url : `${API_BASE_URL}${item.image_url}`}
+                          src={resolveImageUrl(item.image_url)}
                           alt={item.name}
                           className="w-full h-full object-cover"
                         />

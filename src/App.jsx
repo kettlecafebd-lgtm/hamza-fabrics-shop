@@ -16,6 +16,7 @@ import API_BASE_URL from './config/api';
 import { initGTM, pushEvent } from './lib/gtm';
 import { initFbq, fbqEvent } from './lib/fbq';
 import { appConfig } from './config/app';
+import { resolveImageUrl } from './utils/imageUrl';
 
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -146,7 +147,7 @@ function App() {
           link.rel = 'icon';
           document.head.appendChild(link);
         }
-        link.href = parsed.faviconUrl || parsed.logoUrl;
+        link.href = resolveImageUrl(parsed.faviconUrl || parsed.logoUrl);
       }
       if (parsed.storeName) {
         document.title = parsed.storeName;

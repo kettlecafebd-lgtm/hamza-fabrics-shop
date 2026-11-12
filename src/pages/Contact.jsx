@@ -3,6 +3,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import toast from 'react-hot-toast';
 import { ChevronLeft, ChevronRight, X, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 export default function Contact() {
   const { shopTheme, isShopDark } = useContext(ThemeContext);
@@ -56,7 +57,9 @@ export default function Contact() {
     }
   };
 
-  const images = siteSettings.contactInfo.contactImages?.filter(Boolean) || [];
+  const images = (siteSettings.contactInfo.contactImages?.filter(Boolean) || [])
+    .map(resolveImageUrl)
+    .filter(Boolean);
 
   // Auto-swipe gallery with 3D style
   useEffect(() => {
@@ -247,7 +250,7 @@ export default function Contact() {
             <ChevronRight size={24} />
           </button>
 
-          <img src={images[lightboxIdx]} alt=""
+          <img src={resolveImageUrl(images[lightboxIdx])} alt=""
             className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl cursor-zoom-out"
             onClick={(e) => e.stopPropagation()} />
 

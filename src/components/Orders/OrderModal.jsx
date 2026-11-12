@@ -4,6 +4,7 @@ import {
   Edit, X, RefreshCw, Phone, MessageCircle, Plus, 
   FileText, ExternalLink, Tags, Trash2, Star, Image as ImageIcon 
 } from 'lucide-react';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 export default function OrderModal({
   modalMode, orderFormData = {}, setOrderFormData, setShowOrderModal, 
@@ -149,7 +150,7 @@ export default function OrderModal({
                          <button type="button" onClick={() => removeModalItem(idx)} className="absolute top-3 right-3 text-red-500/80 hover:text-red-500 bg-red-500/10 p-1.5 rounded"><Trash2 size={14}/></button>
                          <div className="flex gap-3 mb-3">
                             <div className="w-12 h-12 bg-white rounded flex items-center justify-center text-[8px] text-black text-center font-bold overflow-hidden border border-t-border">
-                              {item.image ? <img src={item.image} className="w-full h-full object-cover" alt="product"/> : item.sku}
+                              {item.image ? <img src={resolveImageUrl(item.image)} className="w-full h-full object-cover" alt="product"/> : item.sku}
                             </div>
                             <div>
                                <h4 className="text-[13px] font-bold text-t-main leading-tight">{item.name}</h4>
@@ -225,7 +226,7 @@ export default function OrderModal({
                       >
                          <div className="absolute right-2 top-2 text-t-primary opacity-0 group-hover:opacity-100"><Star size={14} fill="currentColor"/></div>
                          <div className="w-14 h-14 bg-white rounded flex items-center justify-center border border-t-border shrink-0">
-                           {prod.image_url ? <img src={prod.image_url} className="w-full h-full object-cover rounded" alt="prod"/> : <ImageIcon size={20} className="text-t-muted"/>}
+                           {prod.image_url ? <img src={resolveImageUrl(prod.image_url)} className="w-full h-full object-cover rounded" alt="prod"/> : <ImageIcon size={20} className="text-t-muted"/>}
                          </div>
                          <div className="flex flex-col justify-between w-full">
                             <div>

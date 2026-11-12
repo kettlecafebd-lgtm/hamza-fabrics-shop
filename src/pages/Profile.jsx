@@ -3,6 +3,7 @@ import { ThemeContext } from '../context/ThemeContext';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 import {
   LayoutDashboard, ShoppingBag, User, MapPin, Trophy, Star, LogOut,
   Package, Clock, ChevronRight, Mail, Phone, MapPinIcon,
@@ -260,7 +261,7 @@ function OrdersTab() {
                   {order.items.slice(0, 3).map((item, i) => (
                     <div key={i} className="flex items-center gap-1.5 bg-t-surface rounded-lg px-2 py-1 border border-t-border/50">
                       {item.product_image ? (
-                        <img src={item.product_image} alt="" className="w-6 h-6 rounded object-cover" />
+                        <img src={resolveImageUrl(item.product_image)} alt="" className="w-6 h-6 rounded object-cover" />
                       ) : <Package size={12} className="text-t-muted" />}
                       <span className="text-[9px] font-semibold text-t-muted max-w-[80px] truncate">{item.product_name || `Item #${item.id}`}</span>
                       <span className="text-[9px] font-bold text-t-main">x{item.quantity}</span>
@@ -357,7 +358,7 @@ function AccountTab({ profile, onUpdate }) {
       <div className="flex items-center gap-5 p-5 bg-t-base rounded-xl border border-t-border">
         <div className="relative shrink-0">
           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-t-primary/30 bg-t-surface flex items-center justify-center">
-            {avatarUrl ? <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
+            {avatarUrl ? <img src={resolveImageUrl(avatarUrl)} alt="" className="w-full h-full object-cover" />
               : <User size={28} className="text-t-muted" />}
           </div>
           <button onClick={() => fileRef.current?.click()}
@@ -712,7 +713,7 @@ function ReviewsTab() {
         <div key={review.id} className="p-4 bg-t-base rounded-xl border border-t-border">
           <div className="flex items-start gap-3">
             <div className="w-12 h-12 rounded-lg overflow-hidden bg-t-surface shrink-0 border border-t-border">
-              {review.product_image ? <img src={review.product_image} alt="" className="w-full h-full object-cover" />
+              {review.product_image ? <img src={resolveImageUrl(review.product_image)} alt="" className="w-full h-full object-cover" />
                 : <div className="w-full h-full flex items-center justify-center"><ImageOff size={16} className="text-t-muted" /></div>}
             </div>
             <div className="flex-1 min-w-0">

@@ -9,6 +9,7 @@ import API_BASE_URL from '../config/api';
 import { trackViewItemList, trackViewItem, trackSearch } from '../lib/gtm';
 import { fbqEvent } from '../lib/fbq';
 import ProductDetailModal from '../components/Shop/ProductDetailModal';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 const ProductCard = ({ product, handleOpenQuickAdd, siteSettings }) => {
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -22,7 +23,10 @@ const ProductCard = ({ product, handleOpenQuickAdd, siteSettings }) => {
     }
   } catch (e) { console.error("Image parse error"); }
   
-  const validImages = images.filter(Boolean).length > 0 ? images.filter(Boolean) : [siteSettings.heroImages[0]];
+  const imageSources = images.filter(Boolean);
+  const validImages = (imageSources.length > 0 ? imageSources : [siteSettings.heroImages[0]])
+    .map(resolveImageUrl)
+    .filter(Boolean);
 
   const hasVariants = product.sizes && product.sizes.trim() !== '';
 
@@ -379,13 +383,17 @@ const Shop = () => {
       {/* Hero Section */}
       <section className="relative w-full h-[70vh] sm:h-[95vh] bg-black overflow-hidden">
         {siteSettings.heroImages.map((img, index) => {
-          const mobileImg = siteSettings.heroMobileImages && siteSettings.heroMobileImages[index] ? siteSettings.heroMobileImages[index] : img;
+          const desktopImg = resolveImageUrl(img);
+          const mobileImgSource = siteSettings.heroMobileImages && siteSettings.heroMobileImages[index]
+            ? siteSettings.heroMobileImages[index]
+            : img;
+          const mobileImg = resolveImageUrl(mobileImgSource);
           const isActive = index === currentHeroImg;
           return (
             <div key={index} className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
               <div className="absolute inset-0 bg-black/50 z-10"></div>
               {/* Desktop Image */}
-              <img src={img} alt="Banner" className={`hidden lg:block absolute inset-0 w-full h-full object-cover object-top transition-transform duration-[4000ms] ease-out ${isActive ? 'scale-105' : 'scale-100'}`} />
+              <img src={desktopImg} alt="Banner" className={`hidden lg:block absolute inset-0 w-full h-full object-cover object-top transition-transform duration-[4000ms] ease-out ${isActive ? 'scale-105' : 'scale-100'}`} />
               {/* Mobile Image */}
               <img src={mobileImg} alt="Banner" className={`block lg:hidden absolute inset-0 w-full h-full object-cover object-top transition-transform duration-[4000ms] ease-out ${isActive ? 'scale-105' : 'scale-100'}`} />
             </div>
@@ -394,7 +402,7 @@ const Shop = () => {
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20">
           <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
             {siteSettings.logoUrl && (
-              <img src={siteSettings.logoUrl} alt={siteSettings.storeName} className="h-8 sm:h-12 w-auto object-contain drop-shadow-xl" />
+              <img src={resolveImageUrl(siteSettings.logoUrl)} alt={siteSettings.storeName} className="h-8 sm:h-12 w-auto object-contain drop-shadow-xl" />
             )}
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white drop-shadow-xl">{siteSettings.storeName}</h1>
           </div>
@@ -470,7 +478,7 @@ const Shop = () => {
         <div className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-2 backdrop-blur-lg animate-fade-in" onClick={() => setIsFullImage(false)}>
           <button onClick={(e) => { e.stopPropagation(); setIsFullImage(false); }} className="absolute top-4 right-4 z-[210] bg-white/10 text-white hover:bg-red-500 w-10 h-10 rounded-full flex items-center justify-center transition-colors text-xl">✕</button>
           <img 
-            src={isFullImage} 
+            src={resolveImageUrl(isFullImage)}
             className="max-w-full max-h-full object-contain cursor-zoom-out scale-100 transition-all duration-300 animate-zoom-in" 
             alt="Zoomed product"
             onClick={(e) => { e.stopPropagation(); setIsFullImage(false); }}
