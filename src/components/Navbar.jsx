@@ -4,6 +4,7 @@ import { Search, X } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 import { ThemeContext } from '../context/ThemeContext';
 import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -61,7 +62,7 @@ export default function Navbar() {
       link.rel = 'icon';
       document.getElementsByTagName('head')[0].appendChild(link);
     }
-    link.href = url;
+    link.href = resolveImageUrl(url);
   };
 
   useEffect(() => {
@@ -129,7 +130,7 @@ export default function Navbar() {
             <Link to="/shop" className="flex items-center gap-3">
               {siteSettings.logoUrl && (
                 <img 
-                  src={siteSettings.logoUrl} 
+                  src={resolveImageUrl(siteSettings.logoUrl)}
                   alt={siteSettings.storeName} 
                   style={{ height: `${siteSettings.logoSize || 40}px` }} 
                   className="w-auto object-contain transition-all duration-300" 
@@ -204,7 +205,7 @@ export default function Navbar() {
                   aria-expanded={customerDropdownOpen}
                   className="w-9 h-9 rounded-full bg-t-primary text-white flex items-center justify-center text-sm font-bold uppercase hover:opacity-90 transition-opacity overflow-hidden"
                 >
-                  {customer.avatar_url ? <img src={customer.avatar_url} alt="" className="w-full h-full object-cover" /> : (customer.name ? customer.name.charAt(0) : 'U')}
+                  {customer.avatar_url ? <img src={resolveImageUrl(customer.avatar_url)} alt="" className="w-full h-full object-cover" /> : (customer.name ? customer.name.charAt(0) : 'U')}
                 </button>
 
                 {customerDropdownOpen && (
@@ -286,7 +287,7 @@ export default function Navbar() {
           ) : (
             <div className="pb-4 border-b border-t-border/50 space-y-2">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-t-primary text-white flex items-center justify-center text-sm font-bold uppercase overflow-hidden">{customer.avatar_url ? <img src={customer.avatar_url} alt="" className="w-full h-full object-cover" /> : (customer.name ? customer.name.charAt(0) : 'U')}</div>
+                <div className="w-10 h-10 rounded-full bg-t-primary text-white flex items-center justify-center text-sm font-bold uppercase overflow-hidden">{customer.avatar_url ? <img src={resolveImageUrl(customer.avatar_url)} alt="" className="w-full h-full object-cover" /> : (customer.name ? customer.name.charAt(0) : 'U')}</div>
                 <div>
                   <p className="font-bold text-t-main text-sm">{customer.name || 'Customer'}</p>
                   <p className="text-xs text-t-muted">{customer.email || ''}</p>

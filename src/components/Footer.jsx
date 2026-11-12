@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 // 🔴 ThemeContext ইমপোর্ট করা হলো
 import { ThemeContext } from '../context/ThemeContext';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 export default function Footer() {
   // 🔴 Context থেকে shopTheme নিয়ে আসা হলো
@@ -94,7 +95,7 @@ export default function Footer() {
               {footerSettings.images.map((imgUrl, index) => (
                 <div key={index} className="shrink-0 w-[180px] md:w-[220px] aspect-[4/5] snap-center rounded-xl overflow-hidden shadow-sm border border-t-border group relative cursor-grab active:cursor-grabbing bg-t-base">
                   {/* 🔴 ইমেজে ease-in-out এবং brightness ইফেক্ট দিয়ে আরও স্মুথ করা হয়েছে */}
-                  <img src={imgUrl} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-110" loading="lazy" />
+                  <img src={resolveImageUrl(imgUrl)} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-110" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out"></div>
                 </div>
               ))}
@@ -116,7 +117,7 @@ export default function Footer() {
                 {footerSettings.deliveryPartners.length > 0 ? (
                   footerSettings.deliveryPartners.map((dp, idx) => (
                     <React.Fragment key={dp.id}>
-                      <img src={dp.logoUrl} alt={dp.name} className="h-7 md:h-8 object-contain grayscale hover:grayscale-0 transition-all duration-500 ease-in-out" title={dp.name} />
+                      <img src={resolveImageUrl(dp.logoUrl)} alt={dp.name} className="h-7 md:h-8 object-contain grayscale hover:grayscale-0 transition-all duration-500 ease-in-out" title={dp.name} />
                       {idx !== footerSettings.deliveryPartners.length - 1 && <div className="h-5 md:h-6 w-px bg-t-border transition-colors"></div>}
                     </React.Fragment>
                   ))

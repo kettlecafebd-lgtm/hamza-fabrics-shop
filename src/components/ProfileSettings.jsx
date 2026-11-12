@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import API_BASE_URL from '../config/api';
+import { resolveImageUrl } from '../utils/imageUrl';
 
 function decodeToken(token) {
   try {
@@ -113,7 +114,7 @@ export default function ProfileSettings({ onClose }) {
               {/* Avatar */}
               <div className="flex flex-col items-center">
                 <div className="relative w-20 h-20 rounded-full bg-t-primary/15 text-t-primary font-black text-2xl flex items-center justify-center overflow-hidden">
-                  {avatarPreview ? <img src={avatarPreview} className="w-full h-full object-cover" alt="avatar" /> : initials}
+                  {avatarPreview ? <img src={resolveImageUrl(avatarPreview)} className="w-full h-full object-cover" alt="avatar" /> : initials}
                 </div>
                 <label className="mt-2 text-[10px] font-bold text-t-primary cursor-pointer hover:underline">
                   Upload Photo

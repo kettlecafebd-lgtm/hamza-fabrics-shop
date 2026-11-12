@@ -9,6 +9,7 @@ import {
 
 import { ThemeContext } from '../../context/ThemeContext'; 
 import API_BASE_URL from '../../config/api';
+import { resolveImageUrl } from '../../utils/imageUrl';
 import toast from 'react-hot-toast';
 
 export default function OrderTable({
@@ -219,7 +220,7 @@ export default function OrderTable({
                         return (
                           <div key={i} className="flex gap-3 items-center">
                             <div className="relative shrink-0">
-                               <img src={prod.image || 'https://via.placeholder.com/40'} alt="" className="w-10 h-10 rounded-md border border-t-border object-cover cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setEnlargedImage(prod.image)} />
+                               <img src={resolveImageUrl(prod.image) || 'https://via.placeholder.com/40'} alt="" className="w-10 h-10 rounded-md border border-t-border object-cover cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setEnlargedImage(resolveImageUrl(prod.image))} />
                                <div className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-t-surface ${order.status === 'pending' ? 'bg-orange-500' : order.status === 'rts' ? 'bg-blue-500' : 'bg-green-500'}`}></div>
                             </div>
                             <div className="flex-1 flex justify-between items-center gap-4 text-t-main">
