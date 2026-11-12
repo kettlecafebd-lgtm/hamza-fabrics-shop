@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Send, ArrowLeft } from 'lucide-react';
 import API_BASE_URL from '../../config/api';
+import ChatMedia from './ChatMedia';
+import { getChatMessageAttachments } from './chatMediaUtils';
 
 export default function ChatThread({ conversationId, conversation, isDark, onBack }) {
   const [messages, setMessages] = useState([]);
@@ -96,6 +98,7 @@ export default function ChatThread({ conversationId, conversation, isDark, onBac
           <div className="text-center py-8 text-t-muted text-sm">No messages yet</div>
         ) : messages.map(msg => {
           const isOutbound = msg.direction === 'outbound';
+          const attachments = getChatMessageAttachments(msg);
           return (
             <div key={msg.id} className={`flex ${isOutbound ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${
@@ -106,7 +109,20 @@ export default function ChatThread({ conversationId, conversation, isDark, onBac
                 {!isOutbound && msg.sender_name && (
                   <p className="text-[10px] font-bold opacity-70 mb-0.5">{msg.sender_name}</p>
                 )}
-                <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
+                {msg.content && <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>}
+                {attachments.length > 0 && (
+                  <div className="mt-2 space-y-2">
+                    {attachments.map((attachment, index) => (
+                      <ChatMedia
+                        key={`${msg.id ?? msg.message_id ?? 'message'}-${index}-${attachment.url}`}
+                        messageId={msg.id ?? msg.message_id}
+                        attachment={attachment}
+                        attachmentIndex={index}
+                        isDark={isDark}
+                      />
+                    ))}
+                  </div>
+                )}
                 <p className={`text-[9px] mt-1 ${isOutbound ? 'text-white/60' : 'text-t-muted'}`}>
                   {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
